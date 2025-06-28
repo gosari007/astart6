@@ -1,0 +1,446 @@
+/* 전체 스타일 리셋 - 모든 요소의 테두리와 외곽선 제거 */
+* {
+  box-sizing: border-box;
+}
+
+/* 이미지 관련 요소들에 테두리 제거 */
+img, image, video, #sentenceImage, #sentenceVideo {
+  border: 0 none transparent !important;
+  outline: 0 none transparent !important;
+  -webkit-tap-highlight-color: transparent;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+}
+
+/* 테두리 없음 특별 클래스 - 이미지의 흰 테두리 완전 제거용 */
+.no-border-at-all {
+  border: 0 none transparent !important;
+  outline: 0 none transparent !important;
+  -webkit-tap-highlight-color: transparent !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  background: transparent !important;
+  overflow: hidden !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  background-clip: content-box !important;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background-color: black;
+}
+#gameCanvas {
+  display: block;
+  touch-action: none;
+  -ms-touch-action: none;
+  background-color: black;
+}
+/* 메뉴 중앙 정렬 유지 */
+#topControls {
+  position: fixed;
+  top: 3px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 16px;
+  padding: 2px 8px;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 10;
+}
+#topControls button {
+  color: #fff;
+  border: none;
+  padding: 5px 12px;
+  font-size: 16px;
+  border-radius: 4px;
+}
+#topControls .start-btn {
+  background: #16c016;
+}
+#topControls .pause-btn {
+  background: #ffcb05;
+  color: #222;
+}
+#topControls .stop-btn {
+  background: #e53935;
+}
+
+/* 볼륨 버튼: 배경/테두리 없음, 오른쪽 상단 끝에 고정 */
+#volumeBtn.volume-btn {
+  position: fixed;
+  top: 10px;
+  right: 24px;
+  background: transparent !important;
+  border: none !important;
+  color: #fff;
+  font-size: 18px;
+  padding: 0 6px;
+  z-index: 20;
+  box-shadow: none !important;
+  outline: none !important;
+  border-radius: 0 !important;
+  cursor: pointer;
+  transition: none;
+}
+#volumeBtn.volume-btn:hover,
+#volumeBtn.volume-btn:active,
+#volumeBtn.volume-btn:focus {
+  background: transparent !important;
+  box-shadow: none !important;
+  outline: none !important;
+}
+
+/* 드롭다운 버튼 스타일 */
+#sentenceDropdown {
+  position: fixed;
+  top: -17px; /* 이전 위치 -13px에서 4px 위로 이동 */
+  left: 5px; /* 기존 위치에서 1px 우측으로 추가 이동 */
+  z-index: 999; /* 최상위 레이어로 설정 */
+  display: flex;
+  align-items: center;
+}
+
+#dropdownBtn {
+  background: transparent !important; /* 배경 제거 */
+  border: none !important; /* 테두리 제거 */
+  color: #fff;
+  font-size: 47px !important; /* 39px에서 20% 증가 = 약 47px */
+  padding: 5px 12px;
+  cursor: pointer;
+  outline: none !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 68px; /* 57px에서 20% 증가 = 약 68px */
+  min-height: 68px; /* 57px에서 20% 증가 = 약 68px */
+  box-shadow: none !important; /* 그림자 제거 */
+  user-select: none; /* 텍스트 선택 방지 */
+  -webkit-tap-highlight-color: transparent; /* 모바일 터치 하이라이트 제거 */
+}
+
+#dropdownBtn:hover,
+#dropdownBtn:active,
+#dropdownBtn:focus {
+  outline: none !important;
+  box-shadow: none !important;
+  background: transparent !important;
+  color: #fff;
+}
+
+/* 문장 목록 컨테이너 스타일 */
+#sentenceList {
+  display: none;  position: absolute;  top: 95px; /* 메뉴 아이콘 하단에서 30px 여백 확보 */
+  left: -5px; /* 전체 문장 목록을 왼쪽으로 5px 이동 */
+  background-color: rgba(0, 0, 0, 0.9);  /* border 제거: 테두리 실선 제거 */
+  max-height: calc(100vh - 190px); /* 상단 95px + 하단 95px의 여백을 제외한 높이 */
+  overflow-y: scroll; /* auto 대신 항상 스크롤바 표시 */  -webkit-overflow-scrolling: touch; /* 모바일 스크롤 개선 */
+  width: 590px; /* 약간 더 넓힘 */
+  border-radius: 4px;
+  z-index: 1000; /* 최상위 레이어로 설정 */
+  scrollbar-width: auto;
+  scrollbar-color: #666 #222;  overscroll-behavior: contain; /* 스크롤 중 부모 요소 스크롤 방지 */  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  padding-top: 15px; /* 내부 상단 여백 15px (외부 여백은 이미 top 속성으로 확보) */
+  padding-bottom: 15px; /* 내부 하단 여백 15px */
+}
+
+/* 스크롤바 스타일 */
+.sentence-list::-webkit-scrollbar {
+  width: 12px;
+}
+
+.sentence-list::-webkit-scrollbar-track {
+  background: #222;
+}
+
+.sentence-list::-webkit-scrollbar-thumb {
+  background-color: #666;
+  border-radius: 6px;
+  border: 2px solid #222;
+}
+
+/* 문장 목록 아이템 스타일 */
+.sentence-item {  color: white;
+  padding: 3px 7px; /* 좌측 패딩을 5px 줄여서 전체 문장을 왼쪽으로 이동 */
+  cursor: pointer;
+  text-align: left;
+  font-size: 17.1px; /* 기존 크기의 95%로 줄임 (18px의 95% = 17.1px) */
+  /* border-bottom 제거: 문장 사이의 하얀 실선 제거 */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;  line-height: 1.4; /* 줄 간격을 1.2에서 1.4로 늘림 */
+  margin-bottom: 10px; /* 기본 간격을 10px로 설정 */
+}
+
+/* 홀수 문장(의문문)에 대한 스타일 - 배경색 제거 */
+.question-sentence {
+  text-shadow: 0px 1px 1px rgba(0, 0, 0, 0.5); /* 텍스트에 약간의 그림자로 가독성 향상 */
+  font-weight: 500; /* 약간 더 굵게 */
+  letter-spacing: 0.2px; /* 글자 간격 살짝 넓힘 */
+}
+
+/* 짝수 번호 문장(답변)에 아래 여백 추가 - 대화 쌍 구분용 */
+.answer-sentence {
+  margin-bottom: 35px !important; /* 기본 10px에서 크게 증가한 35px로 설정하고 !important 추가 */
+  padding-bottom: 5px; /* 텍스트 아래 여백 유지 */
+}
+
+.sentence-item:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+  border-radius: 3px; /* hover 상태에서도 둥근 모서리 유지 */
+}
+
+/* 홀수/짝수 문장 스타일 구분 */
+.sentence-item.question-sentence {
+  border-radius: 3px; /* 둥근 모서리 유지 */
+}
+
+/* 문장 번호 스타일 */
+.sentence-number {
+  display: inline-block;
+  min-width: 40px;
+  margin-right: 3px; /* 8px에서 5px 줄여 3px로 변경하여 문장 시작을 좌측으로 5px 이동 */
+  font-weight: bold;
+  color: #16c016;
+  font-size: 17.1px; /* 기존 크기의 95%로 줄임 (18px의 95% = 17.1px) */
+}
+
+#sentenceImageContainer {
+  position: fixed;
+  top: 44px; /* 메뉴 아이콘 바로 아래에 위치하도록 조정 (3px 더 위로 이동) */
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 15; /* 다른 요소들 위에 오도록 설정 */
+  display: none; /* 기본적으로 숨김 */
+  border: 0 none transparent !important;
+  box-shadow: none !important;
+  outline: 0 none transparent !important;
+}
+
+#sentenceImage {
+  max-width: 100.24vw; /* 화면 너비의 100.24%를 넘지 않도록 설정 (마지막 1% 증가) */
+  max-height: 50.13vh; /* 화면 높이의 50.13%를 넘지 않도록 설정 (마지막 1% 증가) */
+  border-radius: 0 !important; /* 모서리 둥글기 완전 제거 */
+  box-shadow: none !important; /* 그림자 완전 제거 */
+  border: 0 none transparent !important; /* 테두리 완전 제거 */
+  outline: 0 none transparent !important; /* 외곽선 완전 제거 */
+  background-color: transparent !important; /* 배경색 투명 */
+  transform: scale(0); /* 초기 크기를 0으로 설정 */
+  opacity: 0; /* 초기 투명도를 0으로 설정 */
+  transition: all 1.5s cubic-bezier(0.25, 0.46, 0.45, 0.94); /* 1.5초 ease-out 애니메이션 */
+}
+
+/* 이미지가 나타날 때의 애니메이션 클래스 */
+#sentenceImage.show {
+  transform: scale(1); /* 원본 크기로 확대 */
+  opacity: 1; /* 완전 불투명으로 변경 */
+}
+
+/* 동영상 요소에 대한 스타일 */
+#sentenceVideo {
+  max-width: 100.24vw; /* 화면 너비의 100.24%를 넘지 않도록 설정 */
+  max-height: 50.13vh; /* 화면 높이의 50.13%를 넘지 않도록 설정 */
+  border-radius: 0 !important; /* 모서리 둥글기 완전 제거 */
+  box-shadow: none !important; /* 그림자 완전 제거 */
+  border: 0 none transparent !important; /* 테두리 완전 제거 */
+  outline: 0 none transparent !important; /* 외곽선 완전 제거 */
+  background-color: transparent !important; /* 배경색 투명 */
+  transform: scale(0); /* 초기 크기를 0으로 설정 */
+  opacity: 0; /* 초기 투명도를 0으로 설정 */
+  transition: all 1.5s cubic-bezier(0.25, 0.46, 0.45, 0.94); /* 1.5초 ease-out 애니메이션 */
+}
+
+/* 동영상 컨트롤러 바의 검은색 반투명 배경만 투명하게 처리 */
+#sentenceVideo::-webkit-media-controls-panel {
+  background: transparent !important;
+  background-color: transparent !important;
+}
+
+#sentenceVideo::-webkit-media-controls-enclosure {
+  background: transparent !important;
+  background-color: transparent !important;
+}
+
+/* 동영상 컨트롤러 바(타임라인) 숨기기 */
+#sentenceVideo::-webkit-media-controls-timeline,
+video::-webkit-media-controls-timeline {
+  display: none !important;
+  opacity: 0 !important;
+  visibility: hidden !important;
+  width: 0 !important;
+  height: 0 !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  pointer-events: none !important;
+}
+
+/* 동영상 중앙 플레이 버튼 숨기기 */
+#sentenceVideo::-webkit-media-controls-overlay-play-button,
+video::-webkit-media-controls-overlay-play-button {
+  opacity: 0 !important; /* 버튼 완전히 숨김 */
+  visibility: hidden !important; /* 버튼 숨김 */
+  display: none !important; /* 버튼 요소 자체를 숨김 */
+  pointer-events: none !important; /* 클릭 이벤트 차단 */
+}
+
+/* 동영상 컨트롤러 요소들이 제대로 보이고 작동하도록 추가 스타일 */
+#sentenceVideo::-webkit-media-controls,
+video::-webkit-media-controls {
+  display: flex !important;
+  opacity: 1 !important;
+  pointer-events: auto !important;
+}
+
+/* 동영상 자체를 클릭했을 때도 재생/일시정지 가능하도록 설정 */
+#sentenceVideo, video {
+  cursor: pointer !important;
+}
+
+/* 비디오 플레이어 터치 최적화 스타일 - 모든 컨트롤 보이게 설정 */
+.video-touchable {
+  -webkit-tap-highlight-color: transparent !important; /* 탭 하이라이트 제거 */
+}
+
+/* 중앙 플레이 버튼을 확실하게 숨기는 추가 클래스 */
+.hide-center-play-button::-webkit-media-controls-overlay-play-button,
+.hide-center-play-button::-webkit-media-controls-overlay-play-button * {
+  opacity: 0 !important;
+  visibility: hidden !important;
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
+  pointer-events: none !important;
+}
+
+/* 모든 비디오 컨트롤 요소 표시 */
+#sentenceVideo::-webkit-media-controls-fullscreen-button,
+video::-webkit-media-controls-fullscreen-button,
+#sentenceVideo::-webkit-media-controls-mute-button,
+video::-webkit-media-controls-mute-button,
+#sentenceVideo::-webkit-media-controls-volume-slider,
+video::-webkit-media-controls-volume-slider,
+#sentenceVideo::-webkit-media-controls-toggle-closed-captions-button,
+video::-webkit-media-controls-toggle-closed-captions-button,
+#sentenceVideo::-webkit-media-controls-play-button,
+video::-webkit-media-controls-play-button,
+#sentenceVideo::-webkit-media-controls-current-time-display,
+video::-webkit-media-controls-current-time-display,
+#sentenceVideo::-webkit-media-controls-time-remaining-display,
+video::-webkit-media-controls-time-remaining-display,
+#sentenceVideo::-webkit-media-controls-timeline,
+video::-webkit-media-controls-timeline {
+  display: flex !important;
+  opacity: 1 !important;
+}
+
+/* 플레이 버튼만 30% 크게 (기존 10% + 추가 20%) */
+#sentenceVideo::-webkit-media-controls-play-button,
+video::-webkit-media-controls-play-button {
+  transform: scale(1.3) !important; /* 플레이 버튼 크기 30% 증가 */
+  margin: 0 3px !important; /* 여백 약간 더 추가하여 다른 컨트롤과 겹치지 않도록 */
+}
+
+/* 볼륨 컨트롤 주변 수평선 제거 */
+#sentenceVideo::-webkit-media-controls-volume-slider-container,
+video::-webkit-media-controls-volume-slider-container,
+#sentenceVideo::-webkit-media-controls-volume-slider,
+video::-webkit-media-controls-volume-slider {
+  border: none !important;
+  box-shadow: none !important;
+  background: transparent !important;
+}
+
+/* 볼륨 슬라이더의 수평선 제거 */
+#sentenceVideo::-webkit-media-controls-volume-slider::before,
+#sentenceVideo::-webkit-media-controls-volume-slider::after,
+video::-webkit-media-controls-volume-slider::before,
+video::-webkit-media-controls-volume-slider::after {
+  display: none !important;
+  opacity: 0 !important;
+  border: none !important;
+}
+
+/* 스피커 아이콘 주변 실선 제거 */
+#sentenceVideo::-webkit-media-controls-mute-button,
+video::-webkit-media-controls-mute-button {
+  border: none !important;
+  box-shadow: none !important;
+}
+
+/* 모든 컨트롤 요소 사이의 구분선 제거 */
+#sentenceVideo::-webkit-media-controls *,
+video::-webkit-media-controls * {
+  border: none !important;
+  box-shadow: none !important;
+}
+
+/* 시간 표시(시계) 숨기기 */
+#sentenceVideo::-webkit-media-controls-current-time-display,
+video::-webkit-media-controls-current-time-display,
+#sentenceVideo::-webkit-media-controls-time-remaining-display,
+video::-webkit-media-controls-time-remaining-display {
+  display: none !important;
+  opacity: 0 !important;
+  visibility: hidden !important;
+  width: 0 !important;
+  height: 0 !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  pointer-events: none !important;
+}
+
+/* 스피커(음소거 버튼)만 숨기기 */
+#sentenceVideo::-webkit-media-controls-mute-button,
+video::-webkit-media-controls-mute-button {
+  display: none !important;
+  opacity: 0 !important;
+  visibility: hidden !important;
+  width: 0 !important;
+  height: 0 !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  pointer-events: none !important;
+}
+
+/* 볼륨 슬라이더(수평바) 숨기기 */
+#sentenceVideo::-webkit-media-controls-volume-slider,
+video::-webkit-media-controls-volume-slider,
+#sentenceVideo::-webkit-media-controls-volume-slider-container,
+video::-webkit-media-controls-volume-slider-container {
+  display: none !important;
+  opacity: 0 !important;
+  visibility: hidden !important;
+  width: 0 !important;
+  height: 0 !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  pointer-events: none !important;
+}
+
+/* 화면확대(전체화면) 버튼 숨기기 */
+#sentenceVideo::-webkit-media-controls-fullscreen-button,
+video::-webkit-media-controls-fullscreen-button {
+  display: none !important;
+  opacity: 0 !important;
+  visibility: hidden !important;
+  width: 0 !important;
+  height: 0 !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  pointer-events: none !important;
+}
+
+/* 오버플로우 메뉴 버튼(점 3개) 숨기기 */
+#sentenceVideo::-webkit-media-controls-overflow-button,
+video::-webkit-media-controls-overflow-button {
+  display: none !important;
+  opacity: 0 !important;
+  visibility: hidden !important;
+  width: 0 !important;
+  height: 0 !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  pointer-events: none !important;
+}
