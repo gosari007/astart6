@@ -12,6 +12,33 @@ img, image, video, #sentenceImage, #sentenceVideo {
   box-shadow: none !important;
 }
 
+/* 상단 동영상에서 타임라인, 시계, 스피커 버튼, 전체화면 버튼 제거 */
+#sentenceVideo::-webkit-media-controls-timeline,
+#sentenceVideo::-webkit-media-controls-time-remaining-display,
+#sentenceVideo::-webkit-media-controls-current-time-display,
+#sentenceVideo::-webkit-media-controls-mute-button,
+#sentenceVideo::-webkit-media-controls-volume-slider,
+#sentenceVideo::-webkit-media-controls-volume-slider-container,
+#sentenceVideo::-webkit-media-controls-fullscreen-button {
+  display: none !important;
+}
+
+/* 플레이 버튼을 시계 자리로 이동하고 크게 표시, y축으로 5px 위로, x축으로 10px 우측으로 이동 */
+#sentenceVideo::-webkit-media-controls-play-button {
+  display: block !important;
+  position: relative !important;
+  margin-right: 10px !important;
+  transform: scale(1.5) translate(10px, -5px) !important; /* 플레이 버튼 크기 확대 및 x축 10px, y축 -5px 이동(위로 15px 올림) */
+}
+
+/* 비디오 컨트롤바 설정 - 패딩 추가하여 버튼 위치 조정 */
+#sentenceVideo::-webkit-media-controls-panel {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important; /* 플레이 버튼 중앙 정렬 */
+  padding-top: 120px !important; /* 패딩으로 컨트롤 패널 자체를 늘려 플레이 버튼 위치 조정 (90px에서 120px로 증가) */
+}
+
 /* 테두리 없음 특별 클래스 - 이미지의 흰 테두리 완전 제거용 */
 .no-border-at-all {
   border: 0 none transparent !important;
@@ -209,7 +236,7 @@ html, body {
 
 #sentenceImageContainer {
   position: fixed;
-  top: 44px; /* 메뉴 아이콘 바로 아래에 위치하도록 조정 (3px 더 위로 이동) */
+  top: 45px; /* 메뉴 아이콘 아래에 여백을 두고 위치하도록 조정 (55px에서 10px 올림) */
   left: 50%;
   transform: translateX(-50%);
   z-index: 15; /* 다른 요소들 위에 오도록 설정 */
@@ -250,6 +277,8 @@ html, body {
   transform: scale(0); /* 초기 크기를 0으로 설정 */
   opacity: 0; /* 초기 투명도를 0으로 설정 */
   transition: all 1.5s cubic-bezier(0.25, 0.46, 0.45, 0.94); /* 1.5초 ease-out 애니메이션 */
+  object-fit: cover !important; /* 비율 유지하며 컨테이너에 맞춤 */
+  object-position: center -45px !important; /* 상단 45px 크롭 (윗부분을 -45px 위치로 이동) */
 }
 
 /* 동영상 컨트롤러 바의 검은색 반투명 배경만 투명하게 처리 */
@@ -298,149 +327,50 @@ video::-webkit-media-controls {
   cursor: pointer !important;
 }
 
-/* 비디오 플레이어 터치 최적화 스타일 - 모든 컨트롤 보이게 설정 */
-.video-touchable {
-  -webkit-tap-highlight-color: transparent !important; /* 탭 하이라이트 제거 */
-}
-
-/* 중앙 플레이 버튼을 확실하게 숨기는 추가 클래스 */
-.hide-center-play-button::-webkit-media-controls-overlay-play-button,
-.hide-center-play-button::-webkit-media-controls-overlay-play-button * {
-  opacity: 0 !important;
-  visibility: hidden !important;
-  display: none !important;
-  width: 0 !important;
-  height: 0 !important;
-  pointer-events: none !important;
-}
-
-/* 모든 비디오 컨트롤 요소 표시 */
-#sentenceVideo::-webkit-media-controls-fullscreen-button,
-video::-webkit-media-controls-fullscreen-button,
-#sentenceVideo::-webkit-media-controls-mute-button,
-video::-webkit-media-controls-mute-button,
-#sentenceVideo::-webkit-media-controls-volume-slider,
-video::-webkit-media-controls-volume-slider,
-#sentenceVideo::-webkit-media-controls-toggle-closed-captions-button,
-video::-webkit-media-controls-toggle-closed-captions-button,
-#sentenceVideo::-webkit-media-controls-play-button,
-video::-webkit-media-controls-play-button,
-#sentenceVideo::-webkit-media-controls-current-time-display,
-video::-webkit-media-controls-current-time-display,
-#sentenceVideo::-webkit-media-controls-time-remaining-display,
-video::-webkit-media-controls-time-remaining-display,
-#sentenceVideo::-webkit-media-controls-timeline,
-video::-webkit-media-controls-timeline {
-  display: flex !important;
-  opacity: 1 !important;
-}
-
-/* 플레이 버튼만 30% 크게 (기존 10% + 추가 20%) */
-#sentenceVideo::-webkit-media-controls-play-button,
-video::-webkit-media-controls-play-button {
-  transform: scale(1.3) !important; /* 플레이 버튼 크기 30% 증가 */
-  margin: 0 3px !important; /* 여백 약간 더 추가하여 다른 컨트롤과 겹치지 않도록 */
-}
-
-/* 볼륨 컨트롤 주변 수평선 제거 */
-#sentenceVideo::-webkit-media-controls-volume-slider-container,
-video::-webkit-media-controls-volume-slider-container,
-#sentenceVideo::-webkit-media-controls-volume-slider,
-video::-webkit-media-controls-volume-slider {
-  border: none !important;
+/* 하단 이미지/동영상 컨테이너 스타일 */
+#bottomImageContainer {
+  position: fixed;
+  bottom: -150vh; /* 초기 위치: 화면 밖으로 완전히 숨김 */
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 15; /* 다른 요소들 위에 오도록 설정 */
+  display: none; /* 기본적으로 숨김 */
+  border: 0 none transparent !important;
   box-shadow: none !important;
-  background: transparent !important;
+  outline: 0 none transparent !important;
+  transition: bottom 3s cubic-bezier(0.16, 0.81, 0.32, 1); /* 더 천천히(3초) 올라오며 더 강화된 ease-out 효과 */
 }
 
-/* 볼륨 슬라이더의 수평선 제거 */
-#sentenceVideo::-webkit-media-controls-volume-slider::before,
-#sentenceVideo::-webkit-media-controls-volume-slider::after,
-video::-webkit-media-controls-volume-slider::before,
-video::-webkit-media-controls-volume-slider::after {
-  display: none !important;
-  opacity: 0 !important;
-  border: none !important;
+#bottomImage {
+  max-width: 100.24vw; /* 화면 너비의 100.24%를 넘지 않도록 설정 */
+  max-height: 100vh; /* 화면 높이의 100%까지 허용하도록 수정 */
+  border-radius: 0 !important; /* 모서리 둥글기 완전 제거 */
+  box-shadow: none !important; /* 그림자 완전 제거 */
+  border: 0 none transparent !important; /* 테두리 완전 제거 */
+  outline: 0 none transparent !important; /* 외곽선 완전 제거 */
+  background-color: transparent !important; /* 배경색 투명 */
+  opacity: 0; /* 초기 투명도를 0으로 설정 */
+  transition: opacity 3s cubic-bezier(0.16, 0.81, 0.32, 1); /* 더 천천히(3초) 페이드인 되며 더 강화된 ease-out 효과 */
+  object-fit: cover !important; /* 비율 유지하며 컨테이너에 맞춤 */
+  object-position: center -80px !important; /* 윗부분 80px 크롭 (상단을 -80px 위치로 이동) */
 }
 
-/* 스피커 아이콘 주변 실선 제거 */
-#sentenceVideo::-webkit-media-controls-mute-button,
-video::-webkit-media-controls-mute-button {
-  border: none !important;
-  box-shadow: none !important;
+/* 하단 이미지가 나타날 때의 애니메이션 클래스 */
+#bottomImage.show {
+  opacity: 1; /* 완전 불투명으로 변경 */
 }
 
-/* 모든 컨트롤 요소 사이의 구분선 제거 */
-#sentenceVideo::-webkit-media-controls *,
-video::-webkit-media-controls * {
-  border: none !important;
-  box-shadow: none !important;
-}
-
-/* 시간 표시(시계) 숨기기 */
-#sentenceVideo::-webkit-media-controls-current-time-display,
-video::-webkit-media-controls-current-time-display,
-#sentenceVideo::-webkit-media-controls-time-remaining-display,
-video::-webkit-media-controls-time-remaining-display {
-  display: none !important;
-  opacity: 0 !important;
-  visibility: hidden !important;
-  width: 0 !important;
-  height: 0 !important;
-  padding: 0 !important;
-  margin: 0 !important;
-  pointer-events: none !important;
-}
-
-/* 스피커(음소거 버튼)만 숨기기 */
-#sentenceVideo::-webkit-media-controls-mute-button,
-video::-webkit-media-controls-mute-button {
-  display: none !important;
-  opacity: 0 !important;
-  visibility: hidden !important;
-  width: 0 !important;
-  height: 0 !important;
-  padding: 0 !important;
-  margin: 0 !important;
-  pointer-events: none !important;
-}
-
-/* 볼륨 슬라이더(수평바) 숨기기 */
-#sentenceVideo::-webkit-media-controls-volume-slider,
-video::-webkit-media-controls-volume-slider,
-#sentenceVideo::-webkit-media-controls-volume-slider-container,
-video::-webkit-media-controls-volume-slider-container {
-  display: none !important;
-  opacity: 0 !important;
-  visibility: hidden !important;
-  width: 0 !important;
-  height: 0 !important;
-  padding: 0 !important;
-  margin: 0 !important;
-  pointer-events: none !important;
-}
-
-/* 화면확대(전체화면) 버튼 숨기기 */
-#sentenceVideo::-webkit-media-controls-fullscreen-button,
-video::-webkit-media-controls-fullscreen-button {
-  display: none !important;
-  opacity: 0 !important;
-  visibility: hidden !important;
-  width: 0 !important;
-  height: 0 !important;
-  padding: 0 !important;
-  margin: 0 !important;
-  pointer-events: none !important;
-}
-
-/* 오버플로우 메뉴 버튼(점 3개) 숨기기 */
-#sentenceVideo::-webkit-media-controls-overflow-button,
-video::-webkit-media-controls-overflow-button {
-  display: none !important;
-  opacity: 0 !important;
-  visibility: hidden !important;
-  width: 0 !important;
-  height: 0 !important;
-  padding: 0 !important;
-  margin: 0 !important;
-  pointer-events: none !important;
+/* 하단 동영상 요소에 대한 스타일 */
+#bottomVideo {
+  max-width: 100.24vw; /* 화면 너비의 100.24%를 넘지 않도록 설정 */
+  max-height: 100vh; /* 화면 높이의 100%까지 허용하도록 수정 */
+  border-radius: 0 !important; /* 모서리 둥글기 완전 제거 */
+  box-shadow: none !important; /* 그림자 완전 제거 */
+  border: 0 none transparent !important; /* 테두리 완전 제거 */
+  outline: 0 none transparent !important; /* 외곽선 완전 제거 */
+  background-color: transparent !important; /* 배경색 투명 */
+  opacity: 0; /* 초기 투명도를 0으로 설정 */
+  transition: opacity 3s cubic-bezier(0.16, 0.81, 0.32, 1); /* 더 천천히(3초) 페이드인 되며 더 강화된 ease-out 효과 */
+  object-fit: cover !important; /* 비율 유지하며 컨테이너에 맞춤 */
+  object-position: center -80px !important; /* 윗부분 80px 크롭 (상단을 -80px 위치로 이동) */
 }

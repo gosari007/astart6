@@ -27,6 +27,9 @@ window.addEventListener('resize', () => {
   calculateTopOffset(); // Recalculate offset on resize
 });
 
+// --- START: 폭발 횟수 추적 변수 ---
+let explosionCount = 0; // 폭발 횟수 추적
+
 // --- START: ?덈줈??96媛??곸뼱 臾몄옣 ---
 const sentences = [
   "Where will we find \nthose yummy berries?", // 1.txt
@@ -415,8 +418,8 @@ const PETAL_DRIFT_X_PPS_BASE = 30;
 const PETAL_FLUTTER_AMPLITUDE_BASE = 3.5;
 const PETAL_FLUTTER_SPEED_BASE = 3.0;
 
-const SENTENCE_VERTICAL_ADJUSTMENT = 4; // -86 + 70 + 20 = 4 (90px 아래로 이동)
-const ANSWER_OFFSET_Y = 82;
+const SENTENCE_VERTICAL_ADJUSTMENT = -36; // 기존 -31에서 5px 더 감소시켜 첫 번째 문장을 추가로 위로 올림
+const ANSWER_OFFSET_Y = 74; // 기존 67에서 7px 증가시켜 두 번째 문장만 더 아래로 내림
 const LINE_HEIGHT = 30;
 const PLAYER_TOUCH_Y_OFFSET = 15;
 
@@ -1707,7 +1710,7 @@ const WORD_ANIM_MAX_HEIGHT = 18;
 
 // --- START: 의문사 복제본 관련 변수들 ---
 let questionWordClones = []; // 생성된 의문사 복제본들을 저장
-const CLONE_OFFSET_Y = 40; // 의문사 복제본이 원본에서 위로 얼마나 떨어져 있을지 (10px 내림)
+const CLONE_OFFSET_Y = 33; // 의문사 복제본이 원본에서 위로 얼마나 떨어져 있을지 (7px 내림)
 let cloneCreatedForCurrentQuestion = false; // 현재 질문에서 복제본이 이미 생성되었는지 추적
 // --- END: 의문사 복제본 관련 변수들 ---
 
@@ -3693,7 +3696,7 @@ function update(delta) {
             const sentenceToFirework = sentences[sentenceIndex];
             const globalIndexOfSentence = sentenceIndex;
             
-            // 홀수 번호 문장(1, 3, 5...)인 경우에만 이미지 표시
+            // 모든 문장에 대해 상단 이미지 표시 (조건 제거)
             if (typeof showSentenceImage === 'function') {
                 showSentenceImage(globalIndexOfSentence);
             }
@@ -3702,6 +3705,12 @@ function update(delta) {
             sentenceIndex = (sentenceIndex + 1) % sentences.length;
             localStorage.setItem('sentenceIndex', sentenceIndex.toString());
             sounds.explosion.play();
+            
+            // 폭발 횟수 증가 및 첫 번째 폭발에서 하단 이미지 시작
+            explosionCount++;
+            if (explosionCount === 1 && typeof startBottomMediaShow === 'function') {
+                startBottomMediaShow();
+            }
         }
         enemies.splice(ei, 1); bullets.splice(bi, 1);
       }
@@ -3825,6 +3834,9 @@ function resetGameStateForStartStop() {
     if (wordTranslationTimeoutId) { clearTimeout(wordTranslationTimeoutId); wordTranslationTimeoutId = null; }
     centerSentenceWordRects = []; isActionLocked = false;
     
+    // 폭발 횟수 초기화
+    explosionCount = 0;
+    
     // 이미지 숨기기
     if (typeof hideSentenceImage === 'function') {
         hideSentenceImage();
@@ -3855,6 +3867,11 @@ function startGame() {
   }).catch(err => {
     console.warn("음성 합성 초기화 오류 (무시됨):", err);
   });
+  
+  // 시작 시 상단 이미지 초기화 (기존 이미지 숨김)
+  if (typeof hideSentenceImage === 'function') {
+    hideSentenceImage();
+  }
   
   isGameRunning = true; 
   isGamePaused = false;
