@@ -338,7 +338,7 @@ video::-webkit-media-controls {
   border: 0 none transparent !important;
   box-shadow: none !important;
   outline: 0 none transparent !important;
-  transition: bottom 3s cubic-bezier(0.16, 0.81, 0.32, 1); /* 더 천천히(3초) 올라오며 더 강화된 ease-out 효과 */
+  transition: bottom 4s cubic-bezier(0.16, 0.81, 0.32, 1); /* 4초 동안 천천히 올라오며 강화된 ease-out 효과 */
 }
 
 #bottomImage {
@@ -350,7 +350,7 @@ video::-webkit-media-controls {
   outline: 0 none transparent !important; /* 외곽선 완전 제거 */
   background-color: transparent !important; /* 배경색 투명 */
   opacity: 0; /* 초기 투명도를 0으로 설정 */
-  transition: opacity 3s cubic-bezier(0.16, 0.81, 0.32, 1); /* 더 천천히(3초) 페이드인 되며 더 강화된 ease-out 효과 */
+  transition: opacity 4s cubic-bezier(0.16, 0.81, 0.32, 1); /* 더 천천히(4초) 페이드인 되며 더 강화된 ease-out 효과 */
   object-fit: cover !important; /* 비율 유지하며 컨테이너에 맞춤 */
   object-position: center -80px !important; /* 윗부분 80px 크롭 (상단을 -80px 위치로 이동) */
 }
@@ -370,7 +370,7 @@ video::-webkit-media-controls {
   outline: 0 none transparent !important; /* 외곽선 완전 제거 */
   background-color: transparent !important; /* 배경색 투명 */
   opacity: 0; /* 초기 투명도를 0으로 설정 */
-  transition: opacity 3s cubic-bezier(0.16, 0.81, 0.32, 1); /* 더 천천히(3초) 페이드인 되며 더 강화된 ease-out 효과 */
+  transition: opacity 4s cubic-bezier(0.16, 0.81, 0.32, 1); /* 더 천천히(4초) 페이드인 되며 더 강화된 ease-out 효과 */
   object-fit: cover !important; /* 비율 유지하며 컨테이너에 맞춤 */
   object-position: center -80px !important; /* 윗부분 80px 크롭 (상단을 -80px 위치로 이동) */
 }

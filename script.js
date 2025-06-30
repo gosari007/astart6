@@ -3709,6 +3709,13 @@ function update(delta) {
             // 폭발 횟수 증가 및 첫 번째 폭발에서 하단 이미지 시작
             explosionCount++;
             if (explosionCount === 1 && typeof startBottomMediaShow === 'function') {
+                console.log("첫 번째 폭발 감지: 하단 미디어 즉시 시작");
+                // 이미 하단 미디어 컨테이너를 준비하여 시간 단축
+                const bottomImageContainer = document.getElementById('bottomImageContainer');
+                if (bottomImageContainer) {
+                    bottomImageContainer.style.display = 'block';
+                }
+                // 즉시 하단 미디어 표시 시작
                 startBottomMediaShow();
             }
         }
